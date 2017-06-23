@@ -15,7 +15,7 @@ import shutil
 import subprocess as sp
 
 name     = 'hfu.sim'
-mod_root = 'src/hfu.sim/'
+mod_root = 'src/hfu/sim/'
 
 try:
     from setuptools import setup, Command, find_packages
@@ -261,7 +261,7 @@ setup_args = {
     'packages'           : find_packages('src'),
     'package_dir'        : {'': 'src'},
     'scripts'            : [
-                            'bin/hfu_driver.py-bson2json',
+                            'bin/hfu_driver.py',
                             'bin/hfu_plot_hist.gplot',
                            ],
     'package_data'       : {'': ['*.txt', '*.sh', '*.json', '*.gz', 'VERSION', 'SDIST', sdist_name]},

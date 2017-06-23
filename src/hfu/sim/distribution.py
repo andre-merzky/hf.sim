@@ -26,7 +26,7 @@ def create_beta_distribution(n, dmin, dmax, dmean, dvar):
     beta  = alpha * (1 / dmean - 1)
     vals  = list()
     
-    for n in range(N):
+    for n in range(n):
         vals.append((random.betavariate(alpha, beta) * dif) + dmin)
     
     # mode: most frequent value
