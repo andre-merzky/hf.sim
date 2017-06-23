@@ -1,0 +1,19 @@
+#!/usr/bin/env gnuplot
+
+n     = 100              # number of intervals
+max   =   1.             # max value
+min   =   0.             # min value
+width = (max - min) / n  # interval width
+
+set terminal x11
+
+#function used to map a value to the intervals
+hist(x,width) = width * floor(x / width) + width / 2.0
+
+set boxwidth width * 0.9
+
+# count and plot
+plot "dist.dat" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
+
+pause -1
+
