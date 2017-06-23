@@ -1,5 +1,5 @@
 
-# hf.futuretex.sim
+# hf.sim
 
 Simulations on quantitative metrics in BHT productions
 
