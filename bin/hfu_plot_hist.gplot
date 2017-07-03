@@ -1,22 +1,28 @@
-#!/usr/bin/env gnuplot
+#!/usr/bin/gnuplot -c
 
-set terminal x11
+filename = ARG1
+nboxes   = ARG2
+
+if  (nboxes eq "") nboxes=100
+
+stats filename using 1
+set   terminal x11
+
 
 # define reasonably sized boxes for the hist plot in range 0..1.  Those boxes
 # get scaled to the actual data range later on, in `hist()`.
-n     = 100              # number of intervals
-min   =   0.             # min value
-max   =   1.             # max value
+n     = nboxes           # number of intervals
+min   = STATS_min        # min value
+max   = STATS_max        # max value
 width = (max - min) / n  # interval width
 
 
 # function used to map a value to the intervals
 hist(x,width) = width * floor(x / width) + width / 2.0
 
-
 # count and plot
 set  boxwidth width * 1.0
-plot "dist.dat" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
+plot filename u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
 
 pause -1
 

@@ -265,7 +265,7 @@ setup_args = {
                             'bin/hfu_plot_hist.gplot',
                            ],
     'package_data'       : {'': ['*.txt', '*.sh', '*.json', '*.gz', 'VERSION', 'SDIST', sdist_name]},
-    'install_requires'   : [],
+    'install_requires'   : ['radical.utils'],
     'zip_safe'           : False,
 }
 

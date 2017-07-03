@@ -42,3 +42,12 @@ from the technology demonstrater used at HFU:
   * BHT width: 5mm
 
 
+## Peeling
+
+We don't have good statistics on how many bast fibers are obtained per stalk.
+We assume the following distribution (in percent):
+
+    10%: 0 pieces of bast
+    40%: 1 piece  of bast
+    50%: 2 pieces of bast
+
