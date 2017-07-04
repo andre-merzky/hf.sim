@@ -18,7 +18,7 @@ class Thing(object):
 
     # --------------------------------------------------------------------------
     #
-    def __init__(self, model):
+    def __init__(self, model, name=None):
         '''
         Define the state model and set initial state.
         '''
@@ -26,13 +26,18 @@ class Thing(object):
         self._model = model
         self._sidx  = 0
         self._state = model[0]
+        self._uid   = None
+
+        if name:
+            self._uid = ru.generate_id(name)
 
 
     # --------------------------------------------------------------------------
     #
     @property
-    def state(self):
-        return self._state
+    def state(self): return self._state
+    @property
+    def uid(self)  : return self._uid
 
 
     # --------------------------------------------------------------------------

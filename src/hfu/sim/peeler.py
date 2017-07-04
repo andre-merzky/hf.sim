@@ -30,28 +30,21 @@ class Peeler(Thing):
 
     # --------------------------------------------------------------------------
     #
-    def __init__(self): 
+    def __init__(self, cfg): 
         '''
         Peeler starts working
         '''
 
         rep.header('Initialize peeler')
 
+        self._cfg      = cfg
         self._input    = list()
         self._selected = list()
         self._cut      = list()
         self._scrapped = list()
-        self._cfg      = {  # make configurable
-                'min_len'         :  300,
-                'max_len'         : 1600, 
-                'min_dia'         :    6,
-                'max_dia'         :   12,
-                'prep_efficiency' :   99, # in percent
-                'peel_efficiency' :   90  # in percent
-                }
 
         model = [ON, OFF]
-        super(Peeler, self).__init__(model)
+        super(Peeler, self).__init__(model, 'peeler')
 
 
     # --------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 
 import sys
+import math
 
 import radical.utils as ru
 
@@ -24,23 +25,42 @@ class Bast(Thing):
 
     # --------------------------------------------------------------------------
     #
-    def __init__(self, length, width, cfg):
+    def __init__(self, length, width, cfg, state=None):
         '''
         Create a piece of bast of given geometry (values in mm).
         We assume that the width degrades over length, although the distribution
-        is somewhat weighted towards constant length.
+        is somewhat weighted towards constant length.  Width can also be givenm
+        as a tuple though, which is then interpreted as width at begin and end
+        of the bast, respectively.
         '''
 
+        self._cfg = cfg
 
-        max_width   = width
-        mean_width  = max_width * 2/3
-        end_width   = beta(n=1, dmin=0, dmax=max_width, dmean=mean_width, dvar=0.7)
+        if   isinstance(width, list) or \
+             isinstance(width, tuple)   :
+            self._width  = width
+
+        elif isinstance(width, int)  or \
+             isinstance(width, float)   :
+             max_width   = width
+             mean_width  = max_width * 2/3
+             end_width   = beta(n=1, dmin=0, dmax=max_width, dmean=mean_width, dvar=0.7)
+             self._width = [width, end_width[0]]
+
+        else:
+            raise TypeError('Cannot handle width type')
 
         self._len   = length
-        self._width = [width, end_width[0]]
+        self._wdiff = self._width[0] - self._width[1]
+        self._grad  = self._wdiff / self._len
 
         model = [FRESH, CUT, SPLICED, SEWN]
         super(Bast, self).__init__(model)
+
+        if state:
+            while self.state != state:
+                self.advance()
+
 
     @property
     def length(self): return self._len
@@ -50,99 +70,81 @@ class Bast(Thing):
 
     # --------------------------------------------------------------------------
     #
-    def cut(self, new_len):
+    def width_at(self, l):
+        '''
+        determine the width of the bast at length l
+        '''
+        if l > self._len:
+            return 0
+        else:
+            return self._width[0] - self._grad * float(l)
+
+    # --------------------------------------------------------------------------
+    #
+    def len_at(self, w):
+        '''
+        determine at what len the bast has width w
+        '''
+        assert(w <= self._width[0])
+        assert(w >= self._width[1])
+
+        return (self._width[0] - float(w)) / self._wdiff * self._len
+
+
+    # --------------------------------------------------------------------------
+    #
+    def cut(self, length):
         '''
         cut the bast to the given length, reducing the length of this bast to
-        the given value, but also producing more bast in the process
+        the given value, but also producing more bast in the process.  we return
+        the new bast segments.  This bast instance will represent the first
+        segment.
         '''
+
         assert(self.state == FRESH)
 
-        if new_len < self.len:
-            self._scrap['stalk'] += self.len - new_len
-            self._len = new_len
-        else:
-            # nothing to cut
-            pass
+        n_segments = int(math.ceil(self._len / length))
+        segments   = list()
 
-        self.advance()  # CUT
+        for n in range(n_segments):
 
+            start =  n    * length
+            end   = (n+1) * length
 
-    # --------------------------------------------------------------------------
-    #
-    def slice(self):
-        '''
-        Slicing the bast which is too wide.
-        '''
+            if  end >= self._len:
+                end  = self._len
 
-        # parameterize
+            new_width = [self.width_at(start), self.width_at(end)]
+            segments.append(Bast(length=(end-start), width=new_width, 
+                                 cfg=self._cfg, state=CUT))
 
-        assert(self.state == CUT)
+        self._len   = segments[0].length
+        self._width = segments[0].width
 
-        # we can't use stalks thicker than 12mm
-        # FIXME: check
-        if self.dia > 12:
-            self._scrap['stalk'] += self._len
-            self._len = 0
-
-        # we can't use stalks thinner than  6mm
-        # FIXME: check
-        if self.dia < 6:
-            self._scrap['stalk'] += self._len
-            self._len = 0
-
-        # we assume a preparation failure rate of 1%, covering broken or bent
-        # stalks, etc
-        # FIXME: gauge
-        if random.random() <= 0.01:
-            self._scrap['stalk'] += self._len
-            self._len = 0
-
-        # if stalk is too short, we can't peel it
-        # FIXME: check
-        if self._len < 300:
-            self._scrap['stalk'] += self._len
-            self._len = 0
-
-        self.advance()
+        return segments
 
 
     # --------------------------------------------------------------------------
     #
-    def peel(self):
+    def splice(self, width):
         '''
-        peel the stalk, ie. produce 0, 1 or two pieces of fresh bast.  This also
-        produces some waste, mostly wood and some bast fibers.
+        Splicing the bast which is too wide.
         '''
 
         assert(self.state == CUT)
 
-        if self.len:
-            # we have something to peel!
-            pass
+        n_splices = int(math.ceil(self._width[0] / width))
+        s_width  = self._width[1] / n_splices
+        splices   = list()
 
-        basts       = list()
-        bast_num    = 0
-        bast_chance = random.random()
-        if   bast_chance < 0.1: bast_num = 0   # failure
-        elif bast_chance < 0.5: bast_num = 1   # partial failure
-        else                  : bast_num = 2   # full success
+        for n in range(n_splices):
 
-        for bast in bast_num:
-            # the newly peeled bast ban be at most of length `stalk.len`, and at
-            # most of width `stalk.dia*PI/2`.  We assume the length is
-            # distribution is heavily skewed toward the long end, and width is
-            # fully preserved.  The `Bast.__init__` on the variation of the
-            # diameter over length.
-            # TODO: len distribution
-            # TODO: failure rate
-            # compute successfully peeled length in %
-            success = beta(n=1,  dmin=0, dmax=100,  dmean=90, dvar=1)
-            length  = self._len * success / 100
-            basts.append(Bast(length=length, width=self.dia*PI/2))
+            splices.append(Bast(length=self._len, width=[width, s_width], 
+                               cfg=self._cfg))
 
         self.advance()
 
-        return basts
+        return splices
 
 
 # ------------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 
+import os
 import sys
 import random
 
@@ -85,5 +86,56 @@ def create_flat_distribution(n, dmin, dmax):
     return vals
 
 # ------------------------------------------------------------------------------
+#
+def create_plot(fname, title, ptitle, xlabel, ylabel, data):
 
+    plot = '''#!/usr/bin/env gnuplot
+
+fname = "data/%(fname)s.dat"
+stats fname using 1
+set   terminal x11
+
+set autoscale                          # scale axes automatically
+set xtic auto                          # set xtics automatically
+set ytic auto                          # set ytics automatically
+set title  "%(title)s"
+set xlabel "%(xlabel)s"
+set ylabel "%(ylabel)s"
+
+set yrange [0:]
+
+# define reasonably sized boxes for the hist plot in range 0..1.  Those boxes
+# get scaled to the actual data range later on, in `hist()`.
+n     = 100              # number of intervals
+min   = STATS_min        # min value
+max   = STATS_max        # max value
+width = (max - min) / n  # interval width
+
+# function used to map a value to the intervals
+hist(x,width) = width * floor(x / width) + width / 2.0
+
+# count and plot
+set  boxwidth width * 1.0
+# plot fname u (hist($1,width)):(1.0) title '%(ptitle)s' smooth freq w boxes lc rgb"green"
+plot fname u 1:2 title 'thickness' with lines lc rgb"green"
+
+pause -1
+
+    ''' % { 'title'  : title , 
+            'ptitle' : ptitle, 
+            'xlabel' : xlabel,
+            'ylabel' : ylabel,
+            'fname'  : fname }
+
+    with open('data/%s.plot' % fname, 'w') as f:
+        f.write(plot)
+
+    with open('data/%s.dat' % fname, 'w') as f:
+        for d in data:
+            f.write('%7.1f\t%7.1f\n' % (d[0], d[1]))
+
+    os.system('chmod 0755 data/%s.plot' % fname)
+    os.system('data/%s.plot' % fname)
+
+# ------------------------------------------------------------------------------
 

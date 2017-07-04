@@ -27,12 +27,14 @@ class Farmer(Thing):
 
     # --------------------------------------------------------------------------
     #
-    def __init__(self):
+    def __init__(self, cfg):
 
+        self._cfg    = cfg
         self._fields = list()
         self._stalks = list()
+
         model = [ACTIVE, RETIRED]
-        super(Farmer, self).__init__(model)
+        super(Farmer, self).__init__(model, 'farmer')
 
         rep.header('Farmer')
 
@@ -50,7 +52,7 @@ class Farmer(Thing):
             areas = [areas]
 
         for area in areas:
-            self._fields.append(Field(area))
+            self._fields.append(Field(area, self._cfg))
 
         for field in self._fields:
             field.sow()

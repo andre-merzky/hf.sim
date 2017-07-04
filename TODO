@@ -1,6 +1,6 @@
 
   - config files for all distribution parameters
-  - different bast cutting/slicing strategies
+  - different bast cutting/splicing strategies
   - different stitching algorithms (bast insertion strategies)
   - always write data / plots for all intermediate steps
 

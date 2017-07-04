@@ -25,19 +25,20 @@ class Field(Thing):
 
     # --------------------------------------------------------------------------
     #
-    def __init__(self, area=10000): 
+    def __init__(self, area, cfg): 
         '''
         area: area of field in square meter (default: 1 acre == 10,000m^2)
         '''
 
+        self._cfg    = cfg
         self._area   = area
         self._stalks = list()
 
-        self.uid = ru.generate_id('field')
+        model = [FRESH, SOWN, GROWN, HARVESTED]
+        super(Field, self).__init__(model, 'field')
+
         rep.header('Planting new field %s: %6d m^2' % (self.uid, area))
 
-        model = [FRESH, SOWN, GROWN, HARVESTED]
-        super(Field, self).__init__(model)
 
     @property
     def stalks(self):
@@ -62,9 +63,18 @@ class Field(Thing):
         rep.info('area: %d m^2>>' % self._area)
         for nstalks in nstalks_list:
 
+            len_min     = self._cfg['length']['min']
+            len_max     = self._cfg['length']['max']
+            len_mean    = self._cfg['length']['mean']
+            len_var     = self._cfg['length']['var']
+
+            dia_min     = self._cfg['diameter']['min']
+            dia_max     = self._cfg['diameter']['max']
+
             nstalks     = int(nstalks)
-            length_list = beta(n=nstalks, dmin=2000, dmax=3000, dmean=2750, dvar=5)
-            diam_list   = flat(n=nstalks, dmin=6, dmax=10)
+            length_list = beta(n=nstalks, dmin=len_min, dmax=len_max,
+                                          dmean=len_mean, dvar=len_var)
+            diam_list   = flat(n=nstalks, dmin=dia_min, dmax=dia_max)
 
             idx = 0
             for l,d in zip(length_list, diam_list):
