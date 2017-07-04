@@ -163,9 +163,6 @@ class Stitcher(Thing):
           # elif w == 3: print '#',
           # else       : print '?',
 
-        print
-        print len(bht), bht[-1]
-
         return BHT(res=res, segw=segw, bht=bht)
 
 

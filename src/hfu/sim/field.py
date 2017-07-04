@@ -71,8 +71,13 @@ class Field(Thing):
         # #/m^2   :  200 /  250 /  350 m^-2
         # length  : 2.00 / 2.75 / 3.00 m
         # diameter:    6 /    8 /   10 mm
-        self._nstalks = beta(n=self._area, dmin=200, dmax=350, 
-                             dmean=250, dvar=5)
+        sprout_min  = self._cfg['sprout']['min']
+        sprout_max  = self._cfg['sprout']['max']
+        sprout_mean = self._cfg['sprout']['mean']
+        sprout_var  = self._cfg['sprout']['var']
+
+        self._nstalks = beta(n=self._area, dmin=sprout_min, dmax=sprout_max, 
+                             dmean=sprout_mean, dvar=sprout_var)
 
         rep.info('area: %d m^2>>' % self._area)
         for n in self._nstalks:

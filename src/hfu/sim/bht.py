@@ -39,7 +39,8 @@ class BHT(Thing):
 
         assert(self.state == SEWN)
 
-        print 'length: %d' % (len(self._bht) * 10)
+        rep.header('BHT Stats')
+        rep.info('length: %d m\n' % (len(self._bht) * 10 / 10 / 100))
 
         data = list()
         x    = 0

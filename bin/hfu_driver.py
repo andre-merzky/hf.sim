@@ -10,7 +10,12 @@ flat   = sim.create_flat_distribution
 rep    = ru.LogReporter(name='hf')
 
 
-cfg = { 'farmer'   : { 'length'   : { 'min'  : 2000,
+cfg = { 'farmer'   : { 'sprout'   : { 'min'  :  100,
+                                      'max'  :  250,
+                                      'mean' :  150,
+                                      'var'  :    5
+                                     },
+                       'length'   : { 'min'  : 2000,
                                       'max'  : 3000,
                                       'mean' : 2750,
                                       'var'  :    5
@@ -28,7 +33,8 @@ cfg = { 'farmer'   : { 'length'   : { 'min'  : 2000,
                      },
         'stitcher' : { 'resolution'  :  10,
                        'seg_width'   :  14,
-                       'seg_length'  : 300 
+                       'seg_length'  : 300, 
+                       'mode'        : 'continuous'
                      },
       }
 
