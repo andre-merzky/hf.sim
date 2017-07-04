@@ -137,13 +137,12 @@ class Bast(Thing):
         assert(self.state == CUT)
 
         n_splices = int(math.ceil(self._width[0] / width))
-        s_width  = self._width[1] / n_splices
+        s_width   = [self._width[0] / n_splices, 
+                     self._width[1] / n_splices]
         splices   = list()
 
         for n in range(n_splices):
-            this_w = flat(n=2, dmin=width * 0.9,  dmax=width * 1.1)[0]
-            splices.append(Bast(length=self._len, width=[this_w, s_width], 
-                               cfg=self._cfg))
+            splices.append(Bast(length=self._len, width=s_width, cfg=self._cfg))
 
         self.advance()
 
