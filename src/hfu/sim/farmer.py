@@ -6,6 +6,9 @@ import radical.utils as ru
 from .distribution import create_beta_distribution as beta
 from .distribution import create_flat_distribution as flat
 
+from .distribution import create_line_plot
+from .distribution import create_hist_plot
+
 from .thing import Thing
 from .field import Field
 
@@ -58,6 +61,17 @@ class Farmer(Thing):
             field.sow()
             field.grow()
 
+        data = list()
+        for field in self._fields:
+            data.extend(field.nstalks)
+
+        create_hist_plot(fname='stalk_density', 
+                         title='Number of Stalks per Area',
+                         ptitle='area',
+                         xlabel='number of stalks / area [1/m^2]',
+                         ylabel='area [m^2]', 
+                         data=data)
+
 
     # --------------------------------------------------------------------------
     #
@@ -93,18 +107,40 @@ class Farmer(Thing):
             rep.progress('.')
         rep.ok('>> ok')
 
+        data = list()
+        for stalk in self._stalks:
+            data.append(stalk.len)
+
+        create_hist_plot(fname='stalk_len', 
+                         title='Stalk Length Historgram',
+                         ptitle='length',
+                         xlabel='length [mm]', 
+                         ylabel='number of stalks', 
+                         data=data)
+
+        data = list()
+        for stalk in self._stalks:
+            data.append(stalk.dia)
+
+        create_hist_plot(fname='stalk_dia', 
+                         title='Stalk Diameter Historgram',
+                         ptitle='diameter',
+                         xlabel='diameter [mm]', 
+                         ylabel='number of stalks', 
+                         data=data)
+
 
     # --------------------------------------------------------------------------
     #
-    def buy(self):
+    def get(self):
         '''
         return all dried stalks
         '''
 
         assert(self.state == ACTIVE)
 
-        rep.header('Buy %d stalks' % len(self._stalks))
-        rep.ok('>> ok')
+      # rep.header('Get %d stalks' % len(self._stalks))
+      # rep.ok('>> ok')
 
         ret = self._stalks
         self._stalks = list()

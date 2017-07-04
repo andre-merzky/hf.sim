@@ -7,6 +7,9 @@ import radical.utils as ru
 from .distribution import create_beta_distribution as beta
 from .distribution import create_flat_distribution as flat
 
+from .distribution import create_line_plot
+from .distribution import create_hist_plot
+
 from .thing import Thing
 from .bast  import Bast
 
@@ -154,7 +157,7 @@ class Stalk(Thing):
             # compute successfully peeled length in %
             success = beta(n=1,  dmin=0, dmax=100,  dmean=90, dvar=1)[0]
             length  = self._len * success / 100
-            print success, '\t', length
+          # print success, '\t', length
             basts.append(Bast(length=length, width=self.dia*PI/2, cfg=cfg))
 
         self.advance()

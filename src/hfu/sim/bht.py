@@ -5,7 +5,9 @@ import radical.utils as ru
 
 from .distribution import create_beta_distribution as beta
 from .distribution import create_flat_distribution as flat
-from .distribution import create_plot
+
+from .distribution import create_line_plot
+from .distribution import create_hist_plot
 
 from .thing import Thing
 
@@ -21,10 +23,10 @@ class BHT(Thing):
 
     # --------------------------------------------------------------------------
     #
-    def __init__(self, res, minw, bht): 
+    def __init__(self, res, segw, bht): 
 
         self._res  = res
-        self._minw = minw
+        self._minw = segw
         self._bht  = bht
 
         model = [SEWN]
@@ -46,12 +48,12 @@ class BHT(Thing):
             y  = section[1]
             data.append([x, y])
 
-        create_plot(fname='bht_thickness', 
-                    title='BHT Thickness over Length',
-                    ptitle='thickness',
-                    xlabel='length [mm]', 
-                    ylabel='number of layers', 
-                    data=data)
+        create_line_plot(fname='bht_thickness', 
+                         title='BHT Thickness over Length',
+                         ptitle='thickness',
+                         xlabel='length [mm]', 
+                         ylabel='number of layers', 
+                         data=data)
 
 
 # ------------------------------------------------------------------------------

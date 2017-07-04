@@ -6,6 +6,9 @@ import radical.utils as ru
 from .distribution import create_beta_distribution as beta
 from .distribution import create_flat_distribution as flat
 
+from .distribution import create_line_plot
+from .distribution import create_hist_plot
+
 from .thing import Thing
 from .bht   import BHT
 
@@ -39,6 +42,27 @@ class Stitcher(Thing):
         
         self._input.extend(bast)
 
+        data = list()
+        for bast in self._input:
+            data.append(bast.width[0])
+        create_hist_plot(fname='bast_width_peel', 
+                         title='Bast Width Histogram (after peeling)',
+                         ptitle='width',
+                         xlabel='width [mm]', 
+                         ylabel='number of basts', 
+                         data=data)
+
+
+        data = list()
+        for bast in self._input:
+            data.append(bast.length)
+        create_hist_plot(fname='bast_len_peel', 
+                         title='Bast Length Histogram (after peeling)',
+                         ptitle='length',
+                         xlabel='length [mm]', 
+                         ylabel='number of basts', 
+                         data=data)
+
 
     # --------------------------------------------------------------------------
     #
@@ -46,8 +70,29 @@ class Stitcher(Thing):
         
         print 'input  : %d' % len(self._input )
         for bast in self._input:
-            self._cut.extend(bast.cut(length=300))
+            self._cut.extend(bast.cut(length=self._cfg['seg_length']))
         self._input = list()
+
+
+        data = list()
+        for bast in self._cut:
+            data.append(bast.width[0])
+        create_hist_plot(fname='bast_width_cut', 
+                         title='Bast Width Histogram (after cutting)',
+                         ptitle='width',
+                         xlabel='width [mm]', 
+                         ylabel='number of basts', 
+                         data=data)
+
+        data = list()
+        for bast in self._cut:
+            data.append(bast.length)
+        create_hist_plot(fname='bast_len_cut', 
+                         title='Bast Length Histogram (after cutting)',
+                         ptitle='length',
+                         xlabel='length [mm]', 
+                         ylabel='number of basts', 
+                         data=data)
 
 
     # --------------------------------------------------------------------------
@@ -59,6 +104,26 @@ class Stitcher(Thing):
             self._spliced.extend(bast.splice(width=8))
         self._cut = list()
 
+        data = list()
+        for bast in self._spliced:
+            data.append(bast.width[0])
+        create_hist_plot(fname='bast_width_spliced', 
+                         title='Bast Width Histogram (after splicing)',
+                         ptitle='width',
+                         xlabel='width [mm]', 
+                         ylabel='number of basts', 
+                         data=data)
+
+        data = list()
+        for bast in self._spliced:
+            data.append(bast.length)
+        create_hist_plot(fname='bast_len_spliced', 
+                         title='Bast Length Histogram (after splicing)',
+                         ptitle='length',
+                         xlabel='length [mm]', 
+                         ylabel='number of basts', 
+                         data=data)
+
 
     # --------------------------------------------------------------------------
     #
@@ -67,7 +132,7 @@ class Stitcher(Thing):
         print 'spliced: %d' % len(self._spliced)
 
         res  = self._cfg['resolution']   # len resolution
-        minw = self._cfg['min_width']    # minmimal tot width
+        segw = self._cfg['seg_width']    # minmimal tot width
         bht  = list()
         cur  = list()
         idx  = 0
@@ -85,23 +150,23 @@ class Stitcher(Thing):
                     tot += w
                     keep.append([bast, pos])
             cur = keep
-            while tot < minw:
+            while tot < segw:
                 bast = self._spliced[idx]; idx += 1
                 pos  = 0
                 tot += bast.width_at(pos)
                 cur.append([bast, pos])
             bht.append([tot, len(cur)])
 
-            w = len(cur)
-            if   w == 1: print '-',
-            elif w == 2: print '=',
-            elif w == 3: print '#',
-            else       : print '?',
+          # w = len(cur)
+          # if   w == 1: print '-',
+          # elif w == 2: print '=',
+          # elif w == 3: print '#',
+          # else       : print '?',
 
         print
         print len(bht), bht[-1]
 
-        return BHT(res=res, minw=minw, bht=bht)
+        return BHT(res=res, segw=segw, bht=bht)
 
 
 # ------------------------------------------------------------------------------

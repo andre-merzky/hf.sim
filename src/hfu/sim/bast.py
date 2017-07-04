@@ -7,6 +7,9 @@ import radical.utils as ru
 from .distribution import create_beta_distribution as beta
 from .distribution import create_flat_distribution as flat
 
+from .distribution import create_line_plot
+from .distribution import create_hist_plot
+
 from .thing import Thing
 
 PI  = 3.1415926
@@ -138,8 +141,8 @@ class Bast(Thing):
         splices   = list()
 
         for n in range(n_splices):
-
-            splices.append(Bast(length=self._len, width=[width, s_width], 
+            this_w = flat(n=2, dmin=width * 0.9,  dmax=width * 1.1)[0]
+            splices.append(Bast(length=self._len, width=[this_w, s_width], 
                                cfg=self._cfg))
 
         self.advance()

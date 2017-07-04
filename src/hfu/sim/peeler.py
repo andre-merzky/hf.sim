@@ -7,6 +7,9 @@ import radical.utils as ru
 from .distribution import create_beta_distribution as beta
 from .distribution import create_flat_distribution as flat
 
+from .distribution import create_line_plot
+from .distribution import create_hist_plot
+
 from .thing import Thing
 
 PI  = 3.1415926
@@ -81,6 +84,27 @@ class Peeler(Thing):
         self._input = list()
         rep.ok('>> ok\n')
 
+        data = list()
+        for stalk in self._selected:
+            data.append(stalk.dia)
+        create_hist_plot(fname='stalk_dia_selected', 
+                         title='Stalk Diameter Histogram (after selection)',
+                         ptitle='diameter',
+                         xlabel='diameter [mm]', 
+                         ylabel='number of stalks', 
+                         data=data)
+
+
+        data = list()
+        for stalk in self._selected:
+            data.append(stalk.len)
+        create_hist_plot(fname='stalk_len_selected', 
+                         title='Stalk Length Histogram (after selection)',
+                         ptitle='length',
+                         xlabel='length [mm]', 
+                         ylabel='number of stalks', 
+                         data=data)
+
 
     # --------------------------------------------------------------------------
     #
@@ -93,13 +117,37 @@ class Peeler(Thing):
 
         rep.info('cut %d stalks' % len(self._selected))
 
+        max_len = self._cfg['max_len']
         for stalk in self._selected:
-            stalk.cut(length=self._cfg['max_len'])
+            length = flat(n=2, dmin=max_len * 0.99,  dmax=max_len * 1.01)
+            stalk.cut(length[0])
             self._cut.append(stalk)
 
         # all selected stalks have been cut
         self._selected = list()
         rep.ok('>> ok\n')
+
+        data = list()
+        for stalk in self._cut:
+            data.append(stalk.dia)
+
+        create_hist_plot(fname='stalk_dia_cut', 
+                         title='Stalk Diameter Histogram (after cutting)',
+                         ptitle='diameter',
+                         xlabel='diameter [mm]', 
+                         ylabel='number of stalks', 
+                         data=data)
+
+
+        data = list()
+        for stalk in self._cut:
+            data.append(stalk.len)
+        create_hist_plot(fname='stalk_len_cut', 
+                         title='Stalk Length Histogram (after cutting)',
+                         ptitle='length',
+                         xlabel='length [mm]', 
+                         ylabel='number of stalks', 
+                         data=data)
 
 
     # --------------------------------------------------------------------------
