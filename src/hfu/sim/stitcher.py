@@ -66,7 +66,7 @@ class Stitcher(Thing):
 
     # --------------------------------------------------------------------------
     #
-    def cut(self, length):
+    def cut(self):
         
         print 'input  : %d' % len(self._input )
         for bast in self._input:
@@ -97,11 +97,11 @@ class Stitcher(Thing):
 
     # --------------------------------------------------------------------------
     #
-    def splice(self, width):
+    def splice(self):
 
         print 'cut    : %d' % len(self._cut   )
         for bast in self._cut:
-            self._spliced.extend(bast.splice(width=8))
+            self._spliced.extend(bast.splice(width=self._cfg['splice_width']))
         self._cut = list()
 
         data = list()

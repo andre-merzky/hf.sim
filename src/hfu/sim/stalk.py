@@ -155,7 +155,12 @@ class Stalk(Thing):
             # diameter over length.
             #
             # compute successfully peeled length in %
-            success = beta(n=1,  dmin=0, dmax=100,  dmean=90, dvar=1)[0]
+            success_min   = cfg['success_min']
+            success_max   = cfg['success_max']
+            success_mean  = cfg['success_mean']
+            success_var   = cfg['success_var']
+            success = beta(n=1,  dmin=success_min, dmax=success_max,  
+                                 dmean=success_mean, dvar=success_var)[0]
             length  = self._len * success / 100
           # print success, '\t', length
             basts.append(Bast(length=length, width=self.dia*PI/2, cfg=cfg))

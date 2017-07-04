@@ -24,23 +24,29 @@ cfg = { 'farmer'   : { 'sprout'   : { 'min'  :  100,
                                       'max'  : 15,
                                      },
                      },
-        'peeler'   : { 'min_len'         :  300,
-                       'max_len'         : 1600, 
-                       'min_dia'         :    6,
-                       'max_dia'         :   12,
-                       'prep_efficiency' :   99, # in percent
-                       'peel_efficiency' :   90  # in percent
+        'peeler'   : { 'min_len'         :   300,
+                       'max_len'         :  1600, 
+                       'min_dia'         :     6,
+                       'max_dia'         :    12,
+                       'prep_efficiency' :    99, # in percent
+                       'peel_efficiency' :    90, # in percent
+
+                       'success_min'     :     0, # in percent of stalk length
+                       'success_max'     :   100,
+                       'success_mean'    :    90,
+                       'success_var'     :     1,
                      },
-        'stitcher' : { 'resolution'  :  10,
-                       'seg_width'   :  14,
-                       'seg_length'  : 300, 
-                       'mode'        : 'continuous'
+        'stitcher' : { 'resolution'      :   10,
+                       'splice_width'    :    7,
+                       'seg_width'       :   12,
+                       'seg_length'      : 1000, 
+                       'mode'            : 'continuous'
                      },
       }
 
 
 farmer = sim.Farmer(cfg['farmer'])
-farmer.plant(areas=10)
+farmer.plant(areas=100)
 farmer.harvest()
 farmer.dry()
 stalks = farmer.get()
@@ -53,8 +59,8 @@ bast = peeler.peel()
 
 stitcher = sim.Stitcher(cfg['stitcher'])
 stitcher.feed(bast)
-stitcher.cut(length=300)
-stitcher.splice(width=8)
+stitcher.cut()
+stitcher.splice()
 bht = stitcher.sew()
 
 bht.stats()
