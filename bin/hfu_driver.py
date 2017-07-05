@@ -46,7 +46,7 @@ cfg = { 'farmer'   : { 'sprout'   : { 'min'  :  100,
 
 
 farmer = sim.Farmer(cfg['farmer'])
-farmer.plant(areas=100)
+farmer.plant(areas=200)
 farmer.harvest()
 farmer.dry()
 stalks = farmer.get()

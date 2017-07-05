@@ -99,7 +99,7 @@ def create_line_plot(fname, title, ptitle, xlabel, ylabel, data):
 
 fname = "data/%(fname)s.dat"
 stats fname using 1 nooutput
-set   terminal x11
+set   terminal dumb
 
 set autoscale                          # scale axes automatically
 set xtic auto                          # set xtics automatically
@@ -160,7 +160,7 @@ def create_hist_plot(fname, title, ptitle, xlabel, ylabel, data):
 
 fname = "data/%(fname)s.dat"
 stats fname using 1 nooutput
-set   terminal x11
+set   terminal dumb
 
 set autoscale                          # scale axes automatically
 set xtic auto                          # set xtics automatically
