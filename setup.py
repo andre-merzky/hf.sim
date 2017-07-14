@@ -14,8 +14,8 @@ import sys
 import shutil
 import subprocess as sp
 
-name     = 'hfu.sim'
-mod_root = 'src/hfu/sim/'
+name     = 'hf.sim'
+mod_root = 'src/hf/sim/'
 
 try:
     from setuptools import setup, Command, find_packages
@@ -257,12 +257,12 @@ setup_args = {
         'Operating System :: POSIX',
         'Operating System :: Unix'
     ],
-    'namespace_packages' : ['hfu'],
+    'namespace_packages' : ['hf'],
     'packages'           : find_packages('src'),
     'package_dir'        : {'': 'src'},
     'scripts'            : [
-                            'bin/hfu_driver.py',
-                            'bin/hfu_plot_hist.gplot',
+                            'bin/hf_driver.py',
+                            'bin/hf_plot_hist.gplot',
                            ],
     'package_data'       : {'': ['*.txt', '*.sh', '*.json', '*.gz', 'VERSION', 'SDIST', sdist_name]},
     'install_requires'   : ['radical.utils'],

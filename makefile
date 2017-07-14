@@ -1,5 +1,5 @@
 
-PROJECT_NAME   = hfu.sim
+PROJECT_NAME   = hf.sim
 PROJECT_TYPE   = python
 
 include $(HOME)/.makefile
