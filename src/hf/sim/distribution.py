@@ -191,8 +191,8 @@ set terminal png
 set output 'data/%(fname)s.png'
 replot
 
-    ''' % { 'title'  : title , 
-            'ptitle' : ptitle, 
+    ''' % { 'title'  : title ,
+            'ptitle' : ptitle,
             'xlabel' : xlabel,
             'ylabel' : ylabel,
             'fname'  : fname }

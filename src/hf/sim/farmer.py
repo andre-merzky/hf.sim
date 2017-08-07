@@ -65,11 +65,11 @@ class Farmer(Thing):
         for field in self._fields:
             data.extend(field.nstalks)
 
-        create_hist_plot(fname='stalk_density', 
+        create_hist_plot(fname='stalk_density',
                          title='Number of Stalks per Area',
                          ptitle='area',
-                         xlabel='number of stalks / area [1/m^2]',
-                         ylabel='area [m^2]', 
+                         xlabel='density of stalks [1/(m*m)]',
+                         ylabel='area [m^2]',
                          data=data)
 
 
@@ -83,7 +83,7 @@ class Farmer(Thing):
 
         assert(self.state == ACTIVE)
 
-        rep.header('Dry harvest: %d stalks' \
+        rep.header('Dry harvest: %d stalks'
                  % sum([len(f.stalks) for f in self._fields]))
 
         for stalk in self._stalks:
@@ -100,7 +100,7 @@ class Farmer(Thing):
 
         assert(self.state == ACTIVE)
 
-        rep.header('Harvest %d field(s): %s' \
+        rep.header('Harvest %d field(s): %s'
                  % (len(self._fields), ' '.join([f.uid for f in self._fields])))
         for field in self._fields:
             self._stalks.extend(field.harvest())
@@ -111,22 +111,22 @@ class Farmer(Thing):
         for stalk in self._stalks:
             data.append(stalk.len)
 
-        create_hist_plot(fname='stalk_len', 
+        create_hist_plot(fname='stalk_len',
                          title='Stalk Length Historgram',
                          ptitle='length',
-                         xlabel='length [mm]', 
-                         ylabel='number of stalks', 
+                         xlabel='length [mm]',
+                         ylabel='number of stalks',
                          data=data)
 
         data = list()
         for stalk in self._stalks:
             data.append(stalk.dia)
 
-        create_hist_plot(fname='stalk_dia', 
+        create_hist_plot(fname='stalk_dia',
                          title='Stalk Diameter Historgram',
                          ptitle='diameter',
-                         xlabel='diameter [mm]', 
-                         ylabel='number of stalks', 
+                         xlabel='diameter [mm]',
+                         ylabel='number of stalks',
                          data=data)
 
 

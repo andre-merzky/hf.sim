@@ -261,8 +261,9 @@ setup_args = {
     'packages'           : find_packages('src'),
     'package_dir'        : {'': 'src'},
     'scripts'            : [
-                            'bin/hf_driver.py',
-                            'bin/hf_plot_hist.gplot',
+                            'bin/hf_sim_driver.py',
+                            'bin/hf_sim_sample_props.py',
+                            'bin/hf_sim_plot_hist.gplot',
                            ],
     'package_data'       : {'': ['*.txt', '*.sh', '*.json', '*.gz', 'VERSION', 'SDIST', sdist_name]},
     'install_requires'   : ['radical.utils'],

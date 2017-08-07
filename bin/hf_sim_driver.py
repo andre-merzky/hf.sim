@@ -3,7 +3,7 @@
 import sys
 
 import radical.utils as ru
-import hfu.sim       as sim
+import hf.sim       as sim
 
 beta   = sim.create_beta_distribution
 flat   = sim.create_flat_distribution
