@@ -1,4 +1,4 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 
 import sys
 
@@ -7,7 +7,7 @@ import hf.sim       as sim
 
 beta   = sim.create_beta_distribution
 flat   = sim.create_flat_distribution
-rep    = ru.LogReporter(name='hf')
+rep    = ru.Reporter(name='hf')
 
 
 cfg = { 'farmer'   : {'sprout'          : {'min'  :   50,
@@ -25,7 +25,7 @@ cfg = { 'farmer'   : {'sprout'          : {'min'  :   50,
                                           },
                      },
         'peeler'   : {'min_len'         :   300,
-                      'max_len'         :  1600, 
+                      'max_len'         :  1600,
                       'min_dia'         :     6,
                       'max_dia'         :    12,
                       'prep_efficiency' :    99,  # in percent
@@ -39,7 +39,7 @@ cfg = { 'farmer'   : {'sprout'          : {'min'  :   50,
         'stitcher' : {'resolution'      :    10,
                       'splice_width'    :     7,
                       'seg_width'       :    12,
-                      'seg_length'      :   500, 
+                      'seg_length'      :   500,
                       'mode'            :  'continuous'
                      },
       }

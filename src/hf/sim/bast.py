@@ -13,7 +13,7 @@ from .distribution import create_hist_plot
 from .thing import Thing
 
 PI  = 3.1415926
-rep = ru.LogReporter(name='hf.sim')
+rep = ru.Reporter(name='hf.sim')
 
 # bast states
 FRESH     = 'fresh'
@@ -118,7 +118,7 @@ class Bast(Thing):
                 end  = self._len
 
             new_width = [self.width_at(start), self.width_at(end)]
-            segments.append(Bast(length=(end-start), width=new_width, 
+            segments.append(Bast(length=(end-start), width=new_width,
                                  cfg=self._cfg, state=CUT))
 
         self._len   = segments[0].length
@@ -137,7 +137,7 @@ class Bast(Thing):
         assert(self.state == CUT)
 
         n_splices = int(math.ceil(self._width[0] / width))
-        s_width   = [self._width[0] / n_splices, 
+        s_width   = [self._width[0] / n_splices,
                      self._width[1] / n_splices]
         splices   = list()
 

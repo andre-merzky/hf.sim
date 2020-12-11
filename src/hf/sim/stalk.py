@@ -14,7 +14,7 @@ from .thing import Thing
 from .bast  import Bast
 
 PI  = 3.1415926
-rep = ru.LogReporter(name='hf.sim')
+rep = ru.Reporter(name='hf.sim')
 
 # stalk states
 FRESH     = 'fresh'
@@ -33,14 +33,14 @@ class Stalk(Thing):
     def __init__(self, length, diameter):
         '''
         create a stalk of given geometry (values in mm).
-        We assume constant width over whole length.  
+        We assume constant width over whole length.
         '''
 
         self._len   = length
         self._dia   = diameter
         self._vol   = PI * self._dia**2 * self._len
-        self._scrap = {'stalk' : 0, 
-                       'wood'  : 0, 
+        self._scrap = {'stalk' : 0,
+                       'wood'  : 0,
                        'fibres': 0}
 
         model = [FRESH, DRIED, SELECTED, CUT, PEELED]
@@ -159,10 +159,10 @@ class Stalk(Thing):
             success_max   = cfg['success_max']
             success_mean  = cfg['success_mean']
             success_var   = cfg['success_var']
-            success = beta(n=1,  dmin=success_min, dmax=success_max,  
+            success = beta(n=1,  dmin=success_min, dmax=success_max,
                                  dmean=success_mean, dvar=success_var)[0]
             length  = self._len * success / 100
-          # print success, '\t', length
+          # print(success, '\t', length)
             basts.append(Bast(length=length, width=self.dia*PI/2, cfg=cfg))
 
         self.advance()

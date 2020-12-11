@@ -11,7 +11,7 @@ from .distribution import create_hist_plot
 
 from .thing import Thing
 
-rep = ru.LogReporter(name='hf.sim')
+rep = ru.Reporter(name='hf.sim')
 
 # bht states
 SEWN = 'sewn'
@@ -23,7 +23,7 @@ class BHT(Thing):
 
     # --------------------------------------------------------------------------
     #
-    def __init__(self, res, segw, bht): 
+    def __init__(self, res, segw, bht):
 
         self._res  = res
         self._minw = segw
@@ -49,11 +49,11 @@ class BHT(Thing):
             y  = section[1]
             data.append([x, y])
 
-        create_line_plot(fname='bht_thickness', 
+        create_line_plot(fname='bht_thickness',
                          title='BHT Thickness over Length',
                          ptitle='thickness',
-                         xlabel='length [mm]', 
-                         ylabel='number of layers', 
+                         xlabel='length [mm]',
+                         ylabel='number of layers',
                          data=data)
 
 

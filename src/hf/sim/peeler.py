@@ -13,7 +13,7 @@ from .distribution import create_hist_plot
 from .thing import Thing
 
 PI  = 3.1415926
-rep = ru.LogReporter(name='hf.sim')
+rep = ru.Reporter(name='hf.sim')
 
 # peeler states
 ON  = 'on'
@@ -28,12 +28,12 @@ class Peeler(Thing):
     shortens them to a certain fixed length, selects them for peeling (sort out
     unusable geometries), peels them, and thus produces bast.  The class will
     keep track of the scrap byproducts used while peeling. The Peeler could be
-    considered to represent a worker or a (set of) machine(s).  
+    considered to represent a worker or a (set of) machine(s).
     '''
 
     # --------------------------------------------------------------------------
     #
-    def __init__(self, cfg): 
+    def __init__(self, cfg):
         '''
         Peeler starts working
         '''
@@ -87,22 +87,22 @@ class Peeler(Thing):
         data = list()
         for stalk in self._selected:
             data.append(stalk.dia)
-        create_hist_plot(fname='stalk_dia_selected', 
+        create_hist_plot(fname='stalk_dia_selected',
                          title='Stalk Diameter Histogram (after selection)',
                          ptitle='diameter',
-                         xlabel='diameter [mm]', 
-                         ylabel='number of stalks', 
+                         xlabel='diameter [mm]',
+                         ylabel='number of stalks',
                          data=data)
 
 
         data = list()
         for stalk in self._selected:
             data.append(stalk.len)
-        create_hist_plot(fname='stalk_len_selected', 
+        create_hist_plot(fname='stalk_len_selected',
                          title='Stalk Length Histogram (after selection)',
                          ptitle='length',
-                         xlabel='length [mm]', 
-                         ylabel='number of stalks', 
+                         xlabel='length [mm]',
+                         ylabel='number of stalks',
                          data=data)
 
 
@@ -131,22 +131,22 @@ class Peeler(Thing):
         for stalk in self._cut:
             data.append(stalk.dia)
 
-        create_hist_plot(fname='stalk_dia_cut', 
+        create_hist_plot(fname='stalk_dia_cut',
                          title='Stalk Diameter Histogram (after cutting)',
                          ptitle='diameter',
-                         xlabel='diameter [mm]', 
-                         ylabel='number of stalks', 
+                         xlabel='diameter [mm]',
+                         ylabel='number of stalks',
                          data=data)
 
 
         data = list()
         for stalk in self._cut:
             data.append(stalk.len)
-        create_hist_plot(fname='stalk_len_cut', 
+        create_hist_plot(fname='stalk_len_cut',
                          title='Stalk Length Histogram (after cutting)',
                          ptitle='length',
-                         xlabel='length [mm]', 
-                         ylabel='number of stalks', 
+                         xlabel='length [mm]',
+                         ylabel='number of stalks',
                          data=data)
 
 

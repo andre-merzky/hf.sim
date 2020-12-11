@@ -13,7 +13,7 @@ from .thing import Thing
 from .bht   import BHT
 
 PI  = 3.1415926
-rep = ru.LogReporter(name='hf.sim')
+rep = ru.Reporter(name='hf.sim')
 
 # stitcher states
 ON  = 'on'
@@ -39,36 +39,36 @@ class Stitcher(Thing):
     # --------------------------------------------------------------------------
     #
     def feed(self, bast):
-        
+
         self._input.extend(bast)
 
         data = list()
         for bast in self._input:
             data.append(bast.width[0])
-        create_hist_plot(fname='bast_width_peel', 
+        create_hist_plot(fname='bast_width_peel',
                          title='Bast Width Histogram (after peeling)',
                          ptitle='width',
-                         xlabel='width [mm]', 
-                         ylabel='number of basts', 
+                         xlabel='width [mm]',
+                         ylabel='number of basts',
                          data=data)
 
 
         data = list()
         for bast in self._input:
             data.append(bast.length)
-        create_hist_plot(fname='bast_len_peel', 
+        create_hist_plot(fname='bast_len_peel',
                          title='Bast Length Histogram (after peeling)',
                          ptitle='length',
-                         xlabel='length [mm]', 
-                         ylabel='number of basts', 
+                         xlabel='length [mm]',
+                         ylabel='number of basts',
                          data=data)
 
 
     # --------------------------------------------------------------------------
     #
     def cut(self):
-        
-        print 'input  : %d' % len(self._input )
+
+        print('input  : %d' % len(self._input ))
         for bast in self._input:
             self._cut.extend(bast.cut(length=self._cfg['seg_length']))
         self._input = list()
@@ -77,21 +77,21 @@ class Stitcher(Thing):
         data = list()
         for bast in self._cut:
             data.append(bast.width[0])
-        create_hist_plot(fname='bast_width_cut', 
+        create_hist_plot(fname='bast_width_cut',
                          title='Bast Width Histogram (after cutting)',
                          ptitle='width',
-                         xlabel='width [mm]', 
-                         ylabel='number of basts', 
+                         xlabel='width [mm]',
+                         ylabel='number of basts',
                          data=data)
 
         data = list()
         for bast in self._cut:
             data.append(bast.length)
-        create_hist_plot(fname='bast_len_cut', 
+        create_hist_plot(fname='bast_len_cut',
                          title='Bast Length Histogram (after cutting)',
                          ptitle='length',
-                         xlabel='length [mm]', 
-                         ylabel='number of basts', 
+                         xlabel='length [mm]',
+                         ylabel='number of basts',
                          data=data)
 
 
@@ -99,7 +99,7 @@ class Stitcher(Thing):
     #
     def splice(self):
 
-        print 'cut    : %d' % len(self._cut   )
+        print('cut    : %d' % len(self._cut   ))
         for bast in self._cut:
             self._spliced.extend(bast.splice(width=self._cfg['splice_width']))
         self._cut = list()
@@ -107,21 +107,21 @@ class Stitcher(Thing):
         data = list()
         for bast in self._spliced:
             data.append(bast.width[0])
-        create_hist_plot(fname='bast_width_spliced', 
+        create_hist_plot(fname='bast_width_spliced',
                          title='Bast Width Histogram (after splicing)',
                          ptitle='width',
-                         xlabel='width [mm]', 
-                         ylabel='number of basts', 
+                         xlabel='width [mm]',
+                         ylabel='number of basts',
                          data=data)
 
         data = list()
         for bast in self._spliced:
             data.append(bast.length)
-        create_hist_plot(fname='bast_len_spliced', 
+        create_hist_plot(fname='bast_len_spliced',
                          title='Bast Length Histogram (after splicing)',
                          ptitle='length',
-                         xlabel='length [mm]', 
-                         ylabel='number of basts', 
+                         xlabel='length [mm]',
+                         ylabel='number of basts',
                          data=data)
 
 
@@ -129,7 +129,7 @@ class Stitcher(Thing):
     #
     def sew(self):
 
-        print 'spliced: %d' % len(self._spliced)
+        print('spliced: %d' % len(self._spliced))
 
         res  = self._cfg['resolution']   # len resolution
         segw = self._cfg['seg_width']    # minmimal tot width
@@ -158,10 +158,10 @@ class Stitcher(Thing):
             bht.append([tot, len(cur)])
 
           # w = len(cur)
-          # if   w == 1: print '-',
-          # elif w == 2: print '=',
-          # elif w == 3: print '#',
-          # else       : print '?',
+          # if   w == 1: print('-',)
+          # elif w == 2: print('=',)
+          # elif w == 3: print('#',)
+          # else       : print('?',)
 
         return BHT(res=res, segw=segw, bht=bht)
 

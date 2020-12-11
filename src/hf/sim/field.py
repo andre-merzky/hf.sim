@@ -13,7 +13,7 @@ from .thing import Thing
 from .stalk import Stalk
 
 PI  = 3.1415926
-rep = ru.LogReporter(name='hf.sim')
+rep = ru.Reporter(name='hf.sim')
 
 # field states
 FRESH     = 'fresh'
@@ -28,7 +28,7 @@ class Field(Thing):
 
     # --------------------------------------------------------------------------
     #
-    def __init__(self, area, cfg): 
+    def __init__(self, area, cfg):
         '''
         area: area of field in square meter (default: 1 acre == 10,000m^2)
         '''
@@ -67,7 +67,7 @@ class Field(Thing):
         # FIXME: model loss over growth period
         #
         # we assume the following stalk parameter distributions
-        # length: 
+        # length:
         # #/m^2   :  200 /  250 /  350 m^-2
         # length  : 2.00 / 2.75 / 3.00 m
         # diameter:    6 /    8 /   10 mm
@@ -76,7 +76,7 @@ class Field(Thing):
         sprout_mean = self._cfg['sprout']['mean']
         sprout_var  = self._cfg['sprout']['var']
 
-        self._nstalks = beta(n=self._area, dmin=sprout_min, dmax=sprout_max, 
+        self._nstalks = beta(n=self._area, dmin=sprout_min, dmax=sprout_max,
                              dmean=sprout_mean, dvar=sprout_var)
 
         rep.info('area: %d m^2>>' % self._area)

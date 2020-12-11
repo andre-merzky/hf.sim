@@ -4,7 +4,7 @@ import sys
 import radical.utils as ru
 
 PI  = 3.1415926
-rep = ru.LogReporter(name='hf.sim')
+rep = ru.Reporter(name='hf.sim')
 
 # ------------------------------------------------------------------------------
 #
@@ -46,7 +46,7 @@ class Thing(object):
         '''
         Transision to the next state in the state model.
         '''
-        
+
         assert(self._state in self._model)
         assert(self._sidx  < (len(self._model)-1))
 

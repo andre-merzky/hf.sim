@@ -1,4 +1,4 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 
 import os
 import sys
@@ -26,13 +26,12 @@ for n in range(nrows):
 
     with open('%s.row.%d' % (fname, n+1), 'w') as fout:
         for val in vals:
-            fout.write('%f\n' % val) 
+            fout.write('%f\n' % val)
 
-    print 'row : %7d '  % (n+1)
-    print 'min : %7.2f' % min(vals)
-    print 'max : %7.2f' % max(vals)
-    print 'mean: %7.2f' % numpy.mean(vals)
-    print 'var : %7.2f' % numpy.std(vals)
+    print('row : %7d '  % (n+1))
+    print('min : %7.2f' % min(vals))
+    print('max : %7.2f' % max(vals))
+    print('mean: %7.2f' % numpy.mean(vals))
+    print('var : %7.2f' % numpy.std(vals))
 
-    print
-
+    print()

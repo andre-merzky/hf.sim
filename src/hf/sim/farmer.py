@@ -13,7 +13,7 @@ from .thing import Thing
 from .field import Field
 
 PI  = 3.1415926
-rep = ru.LogReporter(name='hf.sim')
+rep = ru.Reporter(name='hf.sim')
 
 # farmer states
 ACTIVE    = 'active'
