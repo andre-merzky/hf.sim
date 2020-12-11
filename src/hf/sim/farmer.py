@@ -112,7 +112,7 @@ class Farmer(Thing):
             data.append(stalk.len)
 
         create_hist_plot(fname='stalk_len',
-                         title='Stalk Length Historgram',
+                         title='Stalk Length Histogram',
                          ptitle='length',
                          xlabel='length [mm]',
                          ylabel='number of stalks',
@@ -123,7 +123,7 @@ class Farmer(Thing):
             data.append(stalk.dia)
 
         create_hist_plot(fname='stalk_dia',
-                         title='Stalk Diameter Historgram',
+                         title='Stalk Diameter Histogram',
                          ptitle='diameter',
                          xlabel='diameter [mm]',
                          ylabel='number of stalks',
